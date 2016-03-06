@@ -1,6 +1,12 @@
 #include "d-heap.h"
 
-D_heap:: D_heap(int s, int d){
+D_heap:: D_heap(int s, int d)
+{
+	if (s<0)
+		throw exception ("Negative size");
+	if (s>MAX_D_HEAP_SIZE)
+		throw exception("Size more than MAX_D_HEAP_SIZE");
+
 	size = s;
 	this->d = d;
 	this->keys = new VT[size];
