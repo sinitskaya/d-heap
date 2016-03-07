@@ -42,6 +42,10 @@ int D_heap:: GetSize(){
 	return size;
 }
 
+int D_heap:: GetD(){
+	return d;
+}
+
 void D_heap:: siftUp(int i) //всплытие
 {
 	if (i >= size){
@@ -51,7 +55,6 @@ void D_heap:: siftUp(int i) //всплытие
 	int iparent = (i-1)/d;
 	while ((iparent >=0) && (keys[iparent]>keys[i])) {
 		Swap(i,iparent);
-		Print();
 		i = iparent;
 		iparent = (i-1)/d;
 	}
@@ -77,15 +80,14 @@ int D_heap:: MinChild(int i)
 
 void D_heap:: siftDown(int i) //погружение
 {
-	if (i<0) 
-		throw exception ( "Incorrect index");
+	if ((i<0) || (i>=size)) 
+		throw exception ("Incorrect index");
 	if (size == 0)
 		return;
 	int ichild = MinChild(i);
 	while (!Islist(i) && (keys[ichild]<keys[i]))
 	{
 		Swap(ichild,i);
-		Print();
 		i = ichild;
 		ichild = MinChild(i);
 	}
@@ -104,9 +106,8 @@ void D_heap:: DeleteMinKey() //удаление с мин ключом
 void D_heap:: DeleteIndex(int i)  //удаление с заданным индексом
 {
 	if ((i>=size)|| (i<0))
-	{
 		throw exception ("Incorrect index");
-	}
+
 	keys[i] = keys[size-1];
 	size--;
     siftDown(i);
@@ -202,4 +203,11 @@ D_heap& D_heap:: operator =(const D_heap &heap)
 			keys[i] = heap.keys[i];
 	}
 	return *this;
+}
+
+VT & D_heap:: operator [](int pos)
+{
+	if ((pos>=size) || (pos<0))
+		throw exception ("Incorrect index");
+	return keys[pos];
 }
