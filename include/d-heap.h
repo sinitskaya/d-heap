@@ -1,19 +1,22 @@
 #pragma once
 #include <iostream>
 using namespace std;
+const int MAX_D_HEAP_SIZE = 100000000;
 typedef int VT;
+
 class D_heap 
 {
 private:
-	int size;                  //число элементов в куче
 	int d;                     //число потомков
 	int Islist(int i);         //проверка эл-та на лист
-public:   	
+public:
+	int size;                  //число элементов в куче
 	VT *keys;        
 	D_heap(int s, int d);
 	D_heap(const D_heap & heap);
 	~D_heap();
 
+	int GetD();
 	int GetSize();
 	void Swap(int i, int j);            //транспонирование
 	void siftUp(int i);                 //всплытие
@@ -29,4 +32,5 @@ public:
 	int operator ==(const D_heap &heap)const;
 	int operator !=(const D_heap &heap)const;
 	D_heap& operator =(const D_heap &heap);
+	VT & operator [](int pos);
 };
