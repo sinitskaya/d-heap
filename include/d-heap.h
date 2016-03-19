@@ -27,6 +27,7 @@ public:
 	int MinChild(int i);                 //индекс минимального потомка
 	void InsertKey(VT key);             //вставка нового ключа
 	int Hight();                        //кол-во слоев(высота)
+	int IsEmpty();
 	void Print();
 
 	int operator ==(const D_heap &heap)const;
