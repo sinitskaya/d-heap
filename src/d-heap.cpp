@@ -6,7 +6,8 @@ D_heap:: D_heap(int s, int d)
 		throw exception ("Negative size");
 	if (s>MAX_D_HEAP_SIZE)
 		throw exception("Size more than MAX_D_HEAP_SIZE");
-
+	if (d<0)
+		throw exception ("Negative d");
 	size = s;
 	this->d = d;
 	this->keys = new VT[size];
@@ -163,6 +164,15 @@ int D_heap:: Hight()
 		h++;
 	}
 	return h;
+}
+
+int D_heap:: IsEmpty()
+{
+	if (size<0)
+		throw exception ("size<0");
+	if (size == 0)
+		return 1;
+	else return 0;
 }
 
 int D_heap:: Islist(int i)
