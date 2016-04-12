@@ -11,13 +11,14 @@ private:
 	int Islist(int i);         //проверка эл-та на лист
 public:
 	int size;                  //число элементов в куче
-	VT *keys;        
+	VT *keys;      
+
 	D_heap(int s, int d);
 	D_heap(const D_heap & heap);
+	D_heap(const int *p, const int psize,int d);
 	~D_heap();
 
 	int GetD();
-	int GetSize();
 	void Swap(int i, int j);            //транспонирование
 	void siftUp(int i);                 //всплытие
 	void siftDown(int i);               //погружение
@@ -29,6 +30,7 @@ public:
 	int Hight();                        //кол-во слоев(высота)
 	int IsEmpty();
 	void Print();
+	void PrintMas();
 
 	int operator ==(const D_heap &heap)const;
 	int operator !=(const D_heap &heap)const;

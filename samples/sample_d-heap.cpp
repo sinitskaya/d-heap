@@ -7,22 +7,18 @@ int main()
 	{
 		setlocale(0,"");
 		srand (time(0));
-		D_heap heap(20,5);
-		for (int i=0; i<heap.GetSize(); i++)
-			heap.keys[i] = ( rand() %10 );
-		cout << "Random: "; heap.Print(); cout << endl;
+		D_heap h(20,5);
 
-		cout << "Heapify: "; heap.Heapify(); heap.Print();
-	                                   
-		D_heap h(heap);
+	    h.Print();
+		int hsize = h.size;
 		for (int i=(h.size-1); i>0; i--)
 		{
 			h.Swap(0,i);
 			h.size--;
 			h.siftDown(0);
 		}
-		h.size = heap.size;
-		cout << endl << "Отсортированный: "<< endl; h.Print();
+		h.size = hsize;
+		cout << endl << "Отсортированный: "<< endl; h.PrintMas();
 		system("pause");
 	}
 
