@@ -4,10 +4,6 @@
 Graph:: Graph(int s)
 {
 	gsize = s;
-	/*
-	*edge = new int[gsize];
-	
-		}*/
 	edge = new int*[gsize*gsize];
 	for(int i=0; i<gsize; i++)
 		edge[i] = new int[gsize];

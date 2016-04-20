@@ -1,14 +1,9 @@
+#pragma once
 #include <iostream>
 using namespace std;
 
 class Graph
 {
-//private:
-
-	//uzel *uzels;
-	//VT *pick;   //список вершин
-
-	
 public:
 	
 	int gsize;  //число вершин(размер матр)
