@@ -79,9 +79,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\include\d-heap.h" />
+    <ClInclude Include="..\..\..\..\include\disjoint_set.h" />
+    <ClInclude Include="..\..\..\..\include\graph.h" />
+    <ClInclude Include="..\..\..\..\include\queue.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\include\d-heap.cpp" />
+    <ClCompile Include="..\..\..\..\src\d-heap.cpp" />
+    <ClCompile Include="..\..\..\..\src\disjoint_set.cpp" />
+    <ClCompile Include="..\..\..\..\src\graph.cpp" />
+    <ClCompile Include="..\..\..\..\src\queue.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

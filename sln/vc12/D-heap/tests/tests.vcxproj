@@ -12,7 +12,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\test\test_d-heap.cpp" />
+    <ClCompile Include="..\..\..\..\test\test_disjoint_set.cpp" />
     <ClCompile Include="..\..\..\..\test\test_main.cpp" />
+    <ClCompile Include="..\..\..\..\test\test_queue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\d-heap_lib\d-heap_lib.vcxproj">
