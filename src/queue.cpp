@@ -72,14 +72,26 @@ Queue& Queue:: operator =(const Queue& q1)
 }
 
 */
+
+void Queue:: SetQsize(int s)
+{
+	qsize = s;
+	heap->size = s;
+}
 Queue:: Queue(int s)
 {
 	if (s<=0) 
 		throw exception ("Size<=0");
 	qsize = s;
-	heap = new D_heap(qsize,2);       //не из 0
+	heap = new D_heap(qsize,2,0);       //не из 0
 }
-
+void Queue:: Insert(node n,int i)
+{
+	heap->nd[i].v1 = n.v1;
+	heap->nd[i].v2 = n.v2;
+	heap->nd[i].ves = n.ves;
+	heap->keys[i] = n.ves;
+}
 Queue:: Queue(const int *p, const int psize)
 {
 	if (psize<=0) 
@@ -87,6 +99,15 @@ Queue:: Queue(const int *p, const int psize)
 	qsize = psize;
 	heap = new D_heap(p,psize,2);
 }
+////////////////////////////////////////////////////////////////////////
+Queue:: Queue(node *n, const int nsize)
+{
+	if (nsize<=0) 
+		throw exception ("Size<=0");
+	qsize = nsize;
+	heap = new D_heap(n,nsize,2);
+}
+////////////////////////////////////////////////////////////////////////
 Queue:: Queue(const Queue &que)
 {
 	qsize = que.qsize;
@@ -102,7 +123,7 @@ void Queue:: Pop()
 
 int Queue:: IsEmpty()
 {
-	return heap->IsEmpty();     //size==0 / gsize, heap: private, изменять gsize нет смысла
+	return heap->IsEmpty();     //size==0 / gsize
 }
 
 void Queue:: Print()
@@ -133,3 +154,14 @@ Queue& Queue:: operator =(const Queue& q)
 Queue:: ~Queue(){
 	delete heap;
 }
+////////////////////////////////////////////////
+void Queue:: print1()
+{
+	heap->print1();
+}
+////////////////////////////////////////////////
+node Queue:: Top()
+{
+	return heap->nd[0];
+}
+///////////////////////////////////////////////
