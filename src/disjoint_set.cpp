@@ -68,15 +68,21 @@ void Disjoint_set:: Union(int x, int y)           //обьединение подмножеств
 	if (res==0)
 		throw exception ("Subset doesnt exist");
 	//////////
-	if(h[x]>h[y])
-		p[y] = x;
-	if(h[x]<h[y])
-		p[x] = y;
-	else
-	{
-		p[y] = x;
-		h[x]++;
+	if(h[x]>h[y]){
+		p[y] = x;//x больше по высоте - будет родителем другого
+		//cout << "Родитель " << x << endl;
 	}
+	else
+		if(h[x]<h[y]){
+			p[x] = y;
+			//cout << "Родитель " << y << endl;
+		}
+		else
+		{
+			p[y] = x;
+			h[x]++;
+			//cout << "Родитель " << x << endl;
+		}
 }
 int Disjoint_set:: FindSubset(int x)     //имя множества, которому принадлежит x
 {
