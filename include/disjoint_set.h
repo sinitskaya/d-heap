@@ -2,6 +2,7 @@
 #include <iostream>
 #include <iomanip>
 using namespace std;
+
 class Disjoint_set
 {
 private:
@@ -16,7 +17,7 @@ public:
 	void CreateSingleton(const int x);  //создание синглтона
 	void Union(int x, int y);           //обьединение множеств
 	int FindSubset(int x);              //имя множества, которому принадлежит x
-	void Errors(int x);
+	void Errors(int x);                 //exceptions
 	int GetMaxsize();
 	void Print();
 };
