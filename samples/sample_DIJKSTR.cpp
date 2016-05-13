@@ -1,40 +1,40 @@
 #include "graph.h"
 #include "queue.h"
-//#include <climits>
+
 int main()
 {
 	try{
 	setlocale(0,"");
-	//Graph g1(6,10);
+	//Graph g1(6,10); //random
 	Graph g1(8);
 	g1.edge[0][1] = 2;
 	g1.edge[0][2] = 1;
 	g1.edge[0][3] = 0;
 	g1.edge[0][4] = 5;
-	g1.edge[0][5] = 0;
-	g1.edge[0][6] = 0;
-	g1.edge[0][7] = 0;
+	g1.edge[0][5] = -1;
+	g1.edge[0][6] = -1;
+	g1.edge[0][7] = -1;
 
 	g1.edge[1][2] = 2;
-	g1.edge[1][3] = 0;
+	g1.edge[1][3] = -1;
 	g1.edge[1][4] = 2;
 	g1.edge[1][5] = 3;
-	g1.edge[1][6] = 0;
-	g1.edge[1][7] = 0;
+	g1.edge[1][6] = -1;
+	g1.edge[1][7] = -1;
 
-	g1.edge[2][3] = 0;
+	g1.edge[2][3] = -1;
 	g1.edge[2][4] = 4;
-	g1.edge[2][5] = 0;
-	g1.edge[2][6] = 0;
-	g1.edge[2][7] = 0;
+	g1.edge[2][5] = -1;
+	g1.edge[2][6] = -1;
+	g1.edge[2][7] = -1;
 
 	g1.edge[3][4] = 3;
-	g1.edge[3][5] = 0;
+	g1.edge[3][5] = -1;
 	g1.edge[3][6] = 8;
-	g1.edge[3][7] = 0;
+	g1.edge[3][7] = -1;
 
 	g1.edge[4][5] = 1;
-	g1.edge[4][6] = 0;
+	g1.edge[4][6] = -1;
 	g1.edge[4][7] = 4;
 
 	g1.edge[5][6] = 7;
@@ -63,7 +63,7 @@ int main()
 	{
 		for(int i=0; i<g1.gsize;i++)
 		{
-			if((i==r0) || (g1.edge[i][r0]==0) || (g1.edge[i][r0]==-1))
+			if((i==r0) || /*(g1.edge[i][r0]==0) ||*/ (g1.edge[i][r0]==-1))
 				continue;
 
 			int k=dist[i], r=dist[r0], f=g1.edge[i][r0];
@@ -109,12 +109,13 @@ int main()
 	for(int i=0; i<size; i++)
 		cout << g1.edge[i][i] << " ";
 	cout << endl;
-
+	system("pause");
 	}
 	catch(exception &e)
 	{
-		cout << e.what();
-		cout << endl; return 0;
+		cout << e.what() << endl;
+		system("pause"); 
+		return 0;
 	}
 	return 0;
 }
