@@ -1,7 +1,6 @@
 #include "d-heap.h"
-#include "queue.h"
 
-D_heap:: D_heap(int s, int d, int k) //nd!=0
+D_heap:: D_heap(int s, int d, int k) //nd!=0 k-любое, key=0
 {
 	if (s<0)
 		throw exception ("Negative size");
@@ -9,10 +8,11 @@ D_heap:: D_heap(int s, int d, int k) //nd!=0
 		throw exception("Size more than MAX_D_HEAP_SIZE");
 	if (d<2)
 		throw exception ("d<2");
+	
 	size = s;
 	this->d = d;
-	this->keys = new VT[size];
-	nd = new node[size];
+	this->keys = new VType[size];
+	nd = new Edge[size];
 
 	for (int i=0; i<size; i++)
 	{
@@ -21,8 +21,9 @@ D_heap:: D_heap(int s, int d, int k) //nd!=0
 		nd[i].v2 = -1;
 		nd[i].ves = -1;
 	}
+	Heapify();//+
 }
-D_heap:: D_heap(int s, int d)// nd=0
+D_heap:: D_heap(int s, int d) //nd=0
 {
 	if (s<0)
 		throw exception ("Negative size");
@@ -30,9 +31,10 @@ D_heap:: D_heap(int s, int d)// nd=0
 		throw exception("Size more than MAX_D_HEAP_SIZE");
 	if (d<2)
 		throw exception ("d<2");
+
 	size = s;
 	this->d = d;
-	this->keys = new VT[size];
+	this->keys = new VType[size];
 	nd=0;
 	/*for (int i=0; i<size; i++)
 		keys[i] = 0;*/
@@ -42,9 +44,9 @@ D_heap:: D_heap(int s, int d)// nd=0
 	/*cout << "Random: "; Print(); cout << endl;
 	
 	cout << "Heapify: "; Heapify(); Print();*/
-	Heapify();
+	Heapify();//+_
 }
-D_heap:: D_heap(const int *p, const int psize, int d)//куча из массива
+/*D_heap:: D_heap(const int *p, const int psize, int d)//куча из массива
 {
 	if (p==0)
 		throw exception ("p=0");
@@ -52,6 +54,7 @@ D_heap:: D_heap(const int *p, const int psize, int d)//куча из массива
 		throw exception ("d<2");
 	if (psize<0)
 		throw exception ("psize < 0");
+
 	nd=0;
 	size = psize;
 	this->d = d;
@@ -60,14 +63,21 @@ D_heap:: D_heap(const int *p, const int psize, int d)//куча из массива
 	for (int i=0; i<size; i++)
 		keys[i] = p[i];
 	Heapify();
-}
+}*/
 //////////////////////////////////////////////////////////////////////////////
-D_heap:: D_heap(node *n, const int nsize, int d)//куча из  массива структур
+D_heap:: D_heap(Edge *n, const int nsize, int d)//куча из  массива структур
 {
+	if (nsize<0)
+		throw exception ("Negative size");
+	if (d<2)
+		throw exception ("d<2");
+	if(n==0) 
+		throw exception ("*n=0");
+
 	size = nsize;
 	this->d = d;
-	keys = new int[size];
-	nd = new node[size];
+	keys = new VType[size];
+	nd = new Edge[size];
 	for(int i=0; i<size; i++)
 		keys[i] = n[i].ves;
 
@@ -77,6 +87,7 @@ D_heap:: D_heap(node *n, const int nsize, int d)//куча из  массива структур
 		nd[i].v1 = n[i].v1;
 		nd[i].v2 = n[i].v2;
 	}
+	Heapify();//+
 }
 //////////////////////////////////////////////////////////////////////////
 D_heap::  D_heap(const D_heap & heap)
@@ -84,7 +95,7 @@ D_heap::  D_heap(const D_heap & heap)
 	size = heap.size;
 	d = heap.d;
 	nd=0;
-	keys = new VT[size];
+	keys = new VType[size];
 	for (int i=0; i<size; i++)
 		keys[i] = heap.keys[i];
 }
@@ -99,13 +110,13 @@ void D_heap:: Swap(int i, int j)    //транспонирование
 {
 	if ((i>=size) || (j>=size) || (i<0) || (j<0))
 		throw exception ("Incorrect index in swap");
-	VT tmp;
+	VType tmp;
 	tmp = keys[i];
 	keys [i] = keys[j];
 	keys[j] = tmp;
 	if(nd!=0)
 	{
-		node tmp2;
+		Edge tmp2;
 		tmp2 = nd[i]; 
 		nd[i] = nd[j];
 		nd[j] = tmp2;
@@ -130,6 +141,10 @@ void D_heap:: siftUp(int i) //всплытие
 	}
 }
 
+void D_heap:: SetD(int d1)
+{
+	d = d1;
+}
 int D_heap:: MinChild(int i) 
 {
 	if ((i >= size) || (i<0))
@@ -137,7 +152,7 @@ int D_heap:: MinChild(int i)
 
 	if (Islist(i))
 		return -1; //лист у него нет детей
-	VT minChild = keys[i*d+1];
+	VType minChild = keys[i*d+1];
 	int minc = i*d+1; //индекс мин потомка в масс
 	for (int j=1; j<=d; j++)
 		if ((minChild > keys[i*d+j]) && ((i*d+j)<size))
@@ -154,7 +169,7 @@ void D_heap:: siftDown(int i) //погружение
 		throw exception ("Incorrect index in siftDown");
 	/*if (size == 0)
 		return;*/
-	int ichild = MinChild(i);
+	int ichild = MinChild(i); //индекс
 	while (!Islist(i) && (keys[ichild]<keys[i]))
 	{
 		Swap(ichild,i);
@@ -168,7 +183,7 @@ void D_heap:: DeleteMinKey() //удаление с мин ключом
 	Heapify();
 	if (size == 0)
 		return;
-	VT min_key = keys[0];
+	VType min_key = keys[0];
 	keys[0] = keys[size-1];            
 	/////////////////////////////////////////////////
 	if(nd!=0)
@@ -184,7 +199,9 @@ void D_heap:: DeleteIndex(int i)  //удаление с заданным индексом
 	if ((i>=size)|| (i<0))
 		throw exception ("Incorrect index in DeleteIndex");
 
-	keys[i] = keys[size-1];          nd[i] = nd[size-1];
+	keys[i] = keys[size-1];          
+	if(nd!=0)
+		nd[i] = nd[size-1];
 	size--;
     siftDown(i);
 }
@@ -196,7 +213,7 @@ void D_heap:: Heapify() //окучивание
 		siftDown(i);
 }
 
-void D_heap:: InsertKey(VT key)
+void D_heap:: InsertKey(VType key)
 {
 	D_heap heap(size++,d);
 	heap = *this;
@@ -229,12 +246,14 @@ void D_heap:: Print(){
 	}
 	cout << endl;
 }
+
 void D_heap:: PrintMas()
 {
 	for (int i=size-1; i>=0; i--)
 		cout << keys[i] << " ";
 	cout << endl;
 }
+
 int D_heap:: Hight()
 {
 	if (size == 0)
@@ -293,21 +312,21 @@ D_heap& D_heap:: operator =(const D_heap &heap)
 		delete [] keys;
 		size = heap.size;
 		d = heap.d;
-		keys = new VT[size];
+		keys = new VType[size];
 		for (int i=0; i<size; i++)
 			keys[i] = heap.keys[i];
 	}
 	return *this;
 }
 
-VT & D_heap:: operator [](int pos)
+VType & D_heap:: operator [](int pos)
 {
 	if ((pos>=size) || (pos<0))
 		throw exception ("Incorrect index in []");
 	return keys[pos];
 }
 ///////////////////////////////////////////////////////////////
-void D_heap:: print1(void)
+void D_heap:: print1(void) // вывод со списком ребер
 {
 	cout << endl;
 	for(int i=0; i<size; i++)

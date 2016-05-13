@@ -1,119 +1,81 @@
 #include "queue.h"
-/*
-Queue:: Queue(int s)
-{
-	if (s<=0) 
-		throw exception ("Size<=0");
-	qsize = s;
-	q = new int[qsize];
-	//heap = new D_heap(qsize,2);       //не из 0
-}
-Queue:: Queue (const int *p, const int psize)
-{
-	if (psize<=0) 
-		throw exception ("Size<=0");
-	qsize = psize;
-	q = new int[qsize];
-	for (int i=0; i<qsize; i++)
-		q[i] = p[i];
-}
-Queue:: Queue(const Queue &que)
-{
-	qsize = que.qsize;
-	for (int i=0; i<qsize; i++)
-		q[i] = que.q[i];    //не из 0
-}
-Queue:: ~Queue()
-{
-	delete[] q;
-}
 
-void Queue:: Pop() //изьятие из начала(с мин меткой)
-{//как узнать какой индекс был у удаленного
-	if (qsize==0)
-		return;
-	D_heap heap(q, qsize, 2);
-	
-	int i=0;
-	while (heap.keys[0]!=q[i])
-		i++;
-	//q[i] = -1;
-	qsize--;
-}
-int Queue:: IsEmpty()
+void D_heap_Queue:: SetQsize(int s)
 {
-	if (qsize == 0)
-		return 1;
-	return 0;
-}
-void Queue:: Print()
-{
-	cout << "QUEUE: " << endl;
-	
-	if (IsEmpty())
-	{
-		cout << "Empty" << endl;
-		return;
-	}
+	if(s<0)
+		throw exception ("gsize<0");
 
-	for (int i=0; i<qsize; i++)
-		cout << q[i] << " ";
-	cout << endl;
-}
-Queue& Queue:: operator =(const Queue& q1)
-{
-	if (this!= &q1)
-	{
-		qsize = q1.qsize;
-		for(int i=0; i<qsize; i++)
-			q[i] = q1.q[i];
-	}
-	return *this;
-}
-
-*/
-
-void Queue:: SetQsize(int s)
-{
 	qsize = s;
 	heap->size = s;
 }
-Queue:: Queue(int s)
+
+D_heap_Queue:: D_heap_Queue(int s)
 {
 	if (s<=0) 
 		throw exception ("Size<=0");
+
 	qsize = s;
-	heap = new D_heap(qsize,2,0);       //не из 0
+	heap = new D_heap(qsize,2,0);       //из 0
 }
-void Queue:: Insert(node n,int i)
+
+void D_heap_Queue:: Insert(Edge n, int i)      //вставка ребра
 {
+	if((i<0) || (i>qsize-1))
+		throw exception ("Not correct index");
+
 	heap->nd[i].v1 = n.v1;
 	heap->nd[i].v2 = n.v2;
 	heap->nd[i].ves = n.ves;
 	heap->keys[i] = n.ves;
 }
-Queue:: Queue(const int *p, const int psize)
+/*Queue:: Queue(const int *p, const int psize)
 {
 	if (psize<=0) 
 		throw exception ("Size<=0");
 	qsize = psize;
 	heap = new D_heap(p,psize,2);
-}
+}*/
 ////////////////////////////////////////////////////////////////////////
-Queue:: Queue(node *n, const int nsize)
+D_heap_Queue:: D_heap_Queue(Edge *n, const int nsize)			//из ребер (структура)
 {
 	if (nsize<=0) 
 		throw exception ("Size<=0");
+	if(n==0)
+		throw exception ("*n=0");
+
 	qsize = nsize;
 	heap = new D_heap(n,nsize,2);
 }
 ////////////////////////////////////////////////////////////////////////
-Queue:: Queue(const Queue &que)
+D_heap_Queue:: D_heap_Queue(const D_heap_Queue &que)
 {
 	qsize = que.qsize;
-	heap  = que.heap;    //не из 0
+	int D = que.heap->GetD();
+
+	/*if(que.heap->nd==0) //nd!=0 везде, нет конструктора, где nd==0
+	{
+		heap = new D_heap(qsize, D); //nd=0; keys=random
+
+		for(int i=0; i<qsize; i++)
+			heap->keys[i] = que.heap->keys[i];
+
+	}*/
+
+	if(que.heap->nd!=0)
+	{
+		heap = new D_heap(qsize, D, 1); 
+		for(int i=0; i<qsize; i++)
+		{
+			heap->nd[i].v1 = que.heap->nd[i].v1;
+			heap->nd[i].v2 = que.heap->nd[i].v2;
+			heap->nd[i].ves = que.heap->nd[i].ves;
+		}
+	}
+	//heap = que.heap;
+	//heap = h;    //не из 0 //*heap
 }
-void Queue:: Pop()
+
+void D_heap_Queue:: Pop()			//изьятие из начала(с мин меткой)
 {
 	if (qsize==0)
 		return;
@@ -121,11 +83,11 @@ void Queue:: Pop()
 	qsize--;
 }
 
-int Queue:: IsEmpty()
+int D_heap_Queue:: IsEmpty()
 {
 	return heap->IsEmpty();     //size==0 / gsize
 }
-
+/*
 void Queue:: Print()
 {
 	cout << "QUEUE: " << endl;
@@ -140,28 +102,80 @@ void Queue:: Print()
 		cout << heap->keys[i] << " ";
 	cout << endl;
 }
-
-Queue& Queue:: operator =(const Queue& q)
+*/
+D_heap_Queue& D_heap_Queue:: operator =(const D_heap_Queue& q)
 {
 	if (this!= &q)
 	{
-		for(int i=0; i<q.heap->size; i++)
-			heap = q.heap;
+		qsize = q.qsize;
+		int D = q.heap->GetD();
+
+		if(q.heap->nd!=0)//////////////////
+		{
+			delete [] heap->keys;
+			heap = new D_heap(qsize, D, 1); 
+			for(int i=0; i<qsize; i++)
+			{
+				heap->nd[i].v1 = q.heap->nd[i].v1;
+				heap->nd[i].v2 = q.heap->nd[i].v2;
+				heap->nd[i].ves = q.heap->nd[i].ves;
+			}
+		}////////////////////////////////
+		/*if(q.heap->nd==0) //nd!=0 везде, нет конструктора, где nd==0
+		{
+			heap = new D_heap(qsize, D); //nd=0; keys=random
+
+			for(int i=0; i<qsize; i++)
+				heap->keys[i] = q.heap->keys[i];
+
+		}*/
+		//for(int i=0; i<q.heap->size; i++)
+			//heap = q.heap;
 	}
 	return *this;
 }
+/////////////////////////////////////////////////////////////
+int D_heap_Queue :: operator !=(const D_heap_Queue &q)const
+{
+	return !(*this == q);
+}
 
-Queue:: ~Queue(){
-	delete heap;
+int D_heap_Queue :: operator ==(const D_heap_Queue &q)const
+{
+	if (this != &q)
+	{
+		if ((qsize != q.qsize) )
+			return 0;
+
+		for (int i=0; i<qsize; i++)
+			if (heap->nd[i].v1!=q.heap->nd[i].v1)
+				return 0;
+		for (int i=0; i<qsize; i++)
+			if (heap->nd[i].v2!=q.heap->nd[i].v2)
+				return 0;
+
+		for (int i=0; i<qsize; i++)
+			if (heap->keys[i]!=q.heap->keys[i])
+				return 0;
+	}
+	return 1;
+}
+////////////////////////////////////////////////////////////////////
+D_heap_Queue:: ~D_heap_Queue(){
+		//heap = 0;
+		delete heap;
 }
 ////////////////////////////////////////////////
-void Queue:: print1()
+void D_heap_Queue:: print1()		//вывод со списком ребер
 {
 	heap->print1();
 }
 ////////////////////////////////////////////////
-node Queue:: Top()
+Edge D_heap_Queue:: Top()			//изьятие ребра
 {
 	return heap->nd[0];
 }
 ///////////////////////////////////////////////
+int D_heap_Queue:: GetQsize(void){
+	return qsize;
+}

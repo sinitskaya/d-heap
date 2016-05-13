@@ -1,5 +1,5 @@
 #include "disjoint_set.h"
-
+//реализация с использованием древесной структуры с рангами
 Disjoint_set:: Disjoint_set()
 {
 	maxsize = 10;
@@ -15,6 +15,7 @@ Disjoint_set:: Disjoint_set(int s)
 {
 	if (s<0)
 		throw exception ("size<0");
+
 	maxsize = s;
 	p = new int[maxsize];
 	h = new int[maxsize];
@@ -26,6 +27,11 @@ Disjoint_set:: Disjoint_set(int s)
 }
 void Disjoint_set:: CreateSingleton(const int x) //создание синглтона
 {
+	if(x<0)
+		throw exception ("CreateSingleton: x<0");
+	if (x>maxsize-1)
+		throw exception ("Out of range");
+
 	p[x] = x;
 	h[x] = 0;
 }
