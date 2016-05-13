@@ -13,8 +13,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sample_disjoint_set_Kruskal
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sample_DIJKSTR", "sample_DIJKSTR\sample_DIJKSTR.vcxproj", "{757CEC35-3B2A-423D-8CB0-C36D7F41A762}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sample_queue", "sample_queue\sample_queue.vcxproj", "{7C6891EA-C32F-4286-9856-EDFAE327171B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -45,10 +43,6 @@ Global
 		{757CEC35-3B2A-423D-8CB0-C36D7F41A762}.Debug|Win32.Build.0 = Debug|Win32
 		{757CEC35-3B2A-423D-8CB0-C36D7F41A762}.Release|Win32.ActiveCfg = Release|Win32
 		{757CEC35-3B2A-423D-8CB0-C36D7F41A762}.Release|Win32.Build.0 = Release|Win32
-		{7C6891EA-C32F-4286-9856-EDFAE327171B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{7C6891EA-C32F-4286-9856-EDFAE327171B}.Debug|Win32.Build.0 = Debug|Win32
-		{7C6891EA-C32F-4286-9856-EDFAE327171B}.Release|Win32.ActiveCfg = Release|Win32
-		{7C6891EA-C32F-4286-9856-EDFAE327171B}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
